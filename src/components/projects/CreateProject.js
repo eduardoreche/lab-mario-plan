@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
+import { useDispatch } from 'react-redux';
+
+import { createProject } from '../../store/actions/projectActions';
 
 const CreateProject = () => {
+    const dispatch = useDispatch();
 
     const [state, setState] = useState({
         title: '',
@@ -16,7 +20,7 @@ const CreateProject = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(state);
+        dispatch(createProject(state));
     }
 
     return (
