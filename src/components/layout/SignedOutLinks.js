@@ -1,11 +1,27 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
+import { useFirebase } from 'react-redux-firebase'
+import { useHistory } from 'react-router-dom';
 
 const SignedOutLinks =  () => {
+  const firebase = useFirebase();
+  const history = useHistory();
+
+  const login = async () => {
+    await firebase
+        .login({
+            provider: 'google',
+            type: 'popup'
+        });
+    
+    history.push('/');
+  }
+
   return (
     <ul className="right">
-        <li><NavLink to="/signup">Signup</NavLink></li>
-        <li><NavLink to="/signin">Login</NavLink></li>
+        <li>
+          <a onClick={login}>Login</a>
+        </li>
     </ul>
   );
 }

@@ -7,10 +7,10 @@ import ProjectList from '../projects/ProjectList'
 
 const Dashboard = () => {
     useFirestoreConnect([
-        { collection: 'projects' }
+        { collection: 'projects' },
+
     ]);
     const { projects } = useSelector(state => state.firestore.ordered);
-
     return (
         <div className="dashboard container">
             <div className="row">

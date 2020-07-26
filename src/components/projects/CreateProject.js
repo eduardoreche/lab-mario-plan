@@ -18,12 +18,14 @@ const CreateProject = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        firestore.collection('projects').add({
-            ...state,
-            authorFirstName: 'Eduardo',
-            authorLastName: 'Lopes',
-            createdAt: new Date(),
-        })
+        firestore
+            .collection('projects')
+            .add({
+                ...state,
+                authorFirstName: 'Eduardo',
+                authorLastName: 'Lopes',
+                createdAt: new Date(),
+            })
     }
 
     return (
