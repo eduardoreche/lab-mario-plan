@@ -1,10 +1,8 @@
 import React, {useState} from 'react'
-import { useDispatch } from 'react-redux';
-
-import { createProject } from '../../store/actions/projectActions';
+import { useFirestore } from "react-redux-firebase";
 
 const CreateProject = () => {
-    const dispatch = useDispatch();
+    const firestore = useFirestore();
 
     const [state, setState] = useState({
         title: '',
@@ -20,7 +18,12 @@ const CreateProject = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createProject(state));
+        firestore.collection('projects').add({
+            ...state,
+            authorFirstName: 'Eduardo',
+            authorLastName: 'Lopes',
+            createdAt: new Date(),
+        })
     }
 
     return (

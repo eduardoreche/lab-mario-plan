@@ -8,18 +8,14 @@ const initState = {
 };
 
 const projectReducer = (state = initState, action) => {
-    switch (action.type) {
-        case 'CREATE_PROJECT':
-            console.log('create project', action.project);
-            break;
-        case 'CREATE_PROJECT_ERROR':
-            console.log('create project ERROR', action.error);
-            break;
-        
-        default:
-            break;
-    }
+    const actionType = {
+        'CREATE_PROJECT': () => console.log('create project', action.project),
+        'CREATE_PROJECT_ERROR': () => console.log('create project ERROR', action.error),
+        'default': () => console.log('default')
+    };
 
+    actionType[action.type] ? actionType[action.type]() : actionType.default();
+    
     return state;
 }
 

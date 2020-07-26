@@ -7,7 +7,7 @@ const ProjectList = ({projects}) => {
         <div className="project-list section">
             {projects && projects.map(project => 
                 <ProjectSummary project={project} key={project.id} />
-            )}
+                )}
         </div>
     );
 }

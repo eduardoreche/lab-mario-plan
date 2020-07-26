@@ -1,43 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
-import thunk from 'redux-thunk';
-import { reduxFirestore, getFirestore } from 'redux-firestore';
-import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import { createFirestoreInstance } from 'redux-firestore'
+
+import { firebaseConfig } from './config/fbConfig'
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import rootReducer from './store/reducers/rootReducer' 
-import fbConfig from './config/fbConfig';
+import createStore from './store/createStore'
 
-// const composeEnhancers =
-//   typeof window === 'object' &&
-//   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-//     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-//       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-//     }) : compose;
+firebase.initializeApp(firebaseConfig);
+firebase.firestore();
 
-// const enhancer = compose(
-  
-// );
+const store = createStore();
 
-const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-    reduxFirestore(fbConfig),
-    reactReduxFirebase(fbConfig),
-  )
-);
+const rrfProps = {
+  firebase,
+  config: {
+    userProfile: 'users',
+    useFirestoreForProfile: true
+  },
+  dispatch: store.dispatch,
+  createFirestoreInstance
+};
 
 ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+          <App />
+      </ReactReduxFirebaseProvider>
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
